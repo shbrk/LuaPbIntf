@@ -106,6 +106,20 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     return LuaRef(L, nullptr);
 }
 
+LuaRef LuaPbIntfImpl::Merge(lua_State* L, const string& sMsgTypeName,
+    const string& sData,const LuaRef& luaTable) const
+{
+    luaTable.checkTable();  // Bad argument #-1 to 'encode' (table expected, got number)
+    MessageSptr pMsg = MakeSharedMessage(sMsgTypeName);
+    assert(pMsg);
+    MessageSetter(*pMsg).SetMsg(luaTable);
+    assert(L);
+    if (pMsg->ParseFromStringMerge(sData))
+        return MsgToTbl(*L, *pMsg).ToTbl();
+    return LuaRef(L, nullptr);
+}
+
+
 LuaRef LuaPbIntfImpl::GetServiceDescriptorTbl(lua_State* L,
     const string& sServiceName) const
 {

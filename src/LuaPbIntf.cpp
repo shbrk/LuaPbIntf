@@ -51,6 +51,11 @@ int luaopen_luapbintf(lua_State* L)
             [L, pImpl](const string& sMsgTypeName, const string& sData) {
                 return pImpl->Decode(L, sMsgTypeName, sData);
             })
+        .addFunction("merge",
+            [L, pImpl](const string& sMsgTypeName, const string& sData, 
+            const LuaRef& luaTable) {
+                return pImpl->Merge(L, sMsgTypeName, sData, luaTable);
+            })    
         .addFunction("get_service_descriptor",
             [L, pImpl](const string& sServiceName) {
                 return pImpl->GetServiceDescriptorTbl(L, sServiceName);
