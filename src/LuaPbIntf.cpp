@@ -43,6 +43,10 @@ int luaopen_luapbintf(lua_State* L)
             [pImpl](const string& sProtoFile) {
                 pImpl->ImportProtoFile(sProtoFile);
             })
+        .addFunction("import_proto_content",
+			[pImpl](const string& sFilename,const string& sContent) {
+				pImpl->ImportProtoContent(sFilename,sContent);
+			})
         .addFunction("encode",
             [pImpl](const string& sMsgTypeName, const LuaRef& luaTable) {
                 return pImpl->Encode(sMsgTypeName, luaTable);
