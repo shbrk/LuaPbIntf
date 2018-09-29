@@ -45,6 +45,8 @@ public:
     // e.g. ImportProtoFile("bar/foo.proto")
     void ImportProtoFile(const string& sProtoFile);
 
+	void ImportProtoContent(const string& filename, const string& content);
+
     // Make a dynamic Message.
     MessageSptr MakeSharedMessage(const string& sTypeName) const;
 

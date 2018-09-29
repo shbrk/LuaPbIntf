@@ -75,6 +75,16 @@ void LuaPbIntfImpl::ImportProtoFile(const string& sProtoFile)
     throw LuaException("Failed to import: " + m_pErrorCollector->GetError());
 }
 
+
+void LuaPbIntfImpl::ImportProtoContent(const string& filename, const string& content)
+{
+	m_pErrorCollector->Clear();
+	const FileDescriptor* pDesc = m_pImporter->Import(filename,content);
+	if (pDesc) return;
+	throw LuaException("Failed to import: " + m_pErrorCollector->GetError());
+}
+
+
 MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName) const
 {
     const Descriptor* pDesc = m_pImporter->pool()->
@@ -101,8 +111,9 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     assert(L);
     MessageSptr pMsg = MakeSharedMessage(sMsgTypeName);
     assert(pMsg);
-    if (pMsg->ParseFromString(sData))
-        return MsgToTbl(*L, *pMsg).ToTbl();
+	if (pMsg->ParseFromString(sData)){
+		return MsgToTbl(*L, *pMsg).ToTbl();
+	} 
     return LuaRef(L, nullptr);
 }
 
