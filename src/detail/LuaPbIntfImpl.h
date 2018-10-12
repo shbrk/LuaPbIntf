@@ -58,7 +58,7 @@ public:
     LuaRef Decode(lua_State* L, const string& sMsgTypeName,
         const string& sData) const;
         
-	LuaRef LuaPbIntfImpl::Merge(lua_State* L, const string& sMsgTypeName,
+	LuaRef Merge(lua_State* L, const string& sMsgTypeName,
 		const string& sData, const LuaRef& luaTable) const;
 
     LuaRef GetServiceDescriptorTbl(lua_State* L, const string& sServiceName) const;
